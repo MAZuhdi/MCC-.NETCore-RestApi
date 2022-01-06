@@ -50,5 +50,4 @@ for (var i = 0; i < animals.length; i++) {
         animals[i].kelas.name = 'Non-Mamalia';
     }
 }
-
 console.log(animals);
