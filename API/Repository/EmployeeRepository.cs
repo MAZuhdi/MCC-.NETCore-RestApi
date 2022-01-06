@@ -51,7 +51,7 @@ namespace API.Repository
                 Phone = registerVM.Phone,
                 Email = registerVM.Email,
                 Salary = registerVM.Salary,
-                //Gender = (Models.Gender)registerVM.Gender
+                Gender = (Models.Gender)registerVM.Gender
             };
             try
             {

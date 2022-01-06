@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Models;
 
 namespace API.ViewModels
 {
@@ -20,6 +21,7 @@ namespace API.ViewModels
         public string Phone { get; set; }
         public DateTime BirthDate { get; set; }
         [Range(0, 500000000)] //Harus pada rentang Rp0 hingg Rp500juta
+        public Gender Gender { get; set; }
         public int Salary { get; set; }
         [EmailAddress] // Harus format email
         public string Email { get; set; }
