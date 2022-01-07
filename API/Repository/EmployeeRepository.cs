@@ -145,6 +145,7 @@ namespace API.Repository
                             BirthDate = employee.BirthDate,
                             Salary = employee.Salary,
                             Email = employee.Email,
+                            Gender = employee.Gender,
                             Degree = education.Degree,
                             GPA = education.GPA,
                             UniversityName = university.Name

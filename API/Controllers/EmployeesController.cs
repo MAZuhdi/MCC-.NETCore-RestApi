@@ -42,7 +42,7 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "Director")]
+        //[Authorize(Roles = "Director")]
         [HttpGet("Registered")]
         public ActionResult RegisteredData()
         {
