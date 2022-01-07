@@ -66,7 +66,10 @@ $(document).ready(function () {
                 data: null,
                 bsortable: false,
                 render: function (data, type, row) {
-                    return `<button class="btn btn-primary" data-toggle="modal" data-target="#pokeModal" onclick="getDetails(\`${row['url']}\`)">Detail</button>`;
+                    return `<button class="btn btn-info" data-toggle="modal" data-target="#pokeModal" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-info-circle-fill"></i></button>
+                            <button class="btn btn-primary" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="btn btn-danger" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-trash-fill"></i></button>
+                            `;
                 }
             }
         ]
