@@ -140,6 +140,7 @@ namespace API.Repository
                         join university in myContext.Set<University>()
                             on education.UniversityId equals university.Id
                         select new {
+                            NIK = employee.NIK,
                             FullName = employee.FirstName + " " + employee.LastName,
                             PhoneNumber = employee.Phone,
                             BirthDate = employee.BirthDate,

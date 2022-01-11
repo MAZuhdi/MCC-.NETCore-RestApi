@@ -36,7 +36,7 @@ namespace API
             services.AddCors(c =>
             {
                 //c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44356"));
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44356").AllowAnyMethod().AllowAnyHeader());
             });
 
             services.AddControllers()
@@ -84,7 +84,7 @@ namespace API
         {
             //CORS
             //app.UseCors(options => options.AllowAnyOrigin()); 
-            app.UseCors(options => options.WithOrigins("https://localhost:44356"));
+            app.UseCors(options => options.WithOrigins("https://localhost:44356").AllowAnyMethod().AllowAnyHeader());
 
             if (env.IsDevelopment())
             {
