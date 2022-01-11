@@ -12,5 +12,9 @@ namespace Client.Controllers
         {
             return View();
         }
+        public IActionResult Admin()
+        {
+            return View();
+        }
     }
 }

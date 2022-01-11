@@ -17,7 +17,7 @@ $(document).ready(function () {
             {
                 text: 'Add Employee',
                 action: function (e, dt, node, config) {
-                    $('#emp-create').modal('show');
+                    $('#emp-create-modal').modal('show');
                 }
             },
             {
@@ -74,9 +74,9 @@ $(document).ready(function () {
                 data: null,
                 bsortable: false,
                 render: function (data, type, row) {
-                    return `<button class="btn btn-info" data-toggle="modal" data-target="#emp-detail" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-info-circle-fill"></i></button>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#emp-update" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-pencil-fill"></i></button>
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#emp-delete"><i class="bi bi-trash-fill"></i></button>
+                    return `<button class="btn btn-info" data-toggle="modal" data-target="#emp-detail-modal" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-info-circle-fill"></i></button>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#emp-update-modal" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="btn btn-danger" onclick="deleteEmployee(\`${data.nik}\`)"><i class="bi bi-trash-fill"></i></button>
                             `;
                 }
             }
@@ -126,7 +126,7 @@ $(document).ready(function () {
 //});
 
 // if modal add employee is open, call getUniversity()
-$('#emp-create').on('show.bs.modal', function () {
+$('#emp-create-modal').on('show.bs.modal', function () {
     getUniversity();
 });
 
@@ -165,7 +165,8 @@ $("#form-create").submit(function (event) {
                 required: true
             },
             salary: {
-                required: true
+                required: true,
+                number: true
             },
             email: {
                 required: true,
@@ -186,6 +187,13 @@ $("#form-create").submit(function (event) {
                 number: true,
                 range: [0, 4]
             }
+        },
+/*        errorPlacement: function (error, element) { },*/
+        highlight: function (element) {
+            $(element).closest('.form-control').addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-control').removeClass('is-invalid');
         },
         //yang dilakukan jika rules nya terpenuhi semua
         submitHandler: function (form) {
@@ -231,7 +239,7 @@ function postEmployee() {
             icon: 'success',
             confirmButtonText: 'Cool'
         })
-        $('#emp-create').modal('hide');
+        $('#emp-create-modal').modal('hide');
         empTable.DataTable().ajax.reload();
     }).fail((error) => {
         Swal.fire({
@@ -254,4 +262,44 @@ function getDetail(link) {
     }).fail((error) => {
         console.log(error);
     });
+}
+
+function deleteEmployee(nik) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "https://localhost:44367/Api/Employees/" + nik,
+                type: "DELETE",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                dataType: "json",
+            }).done((result) => {
+                console.log("success");
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Data successfuly deleted',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                })
+                empTable.DataTable().ajax.reload();
+            }).fail((error) => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Do you want to continue',
+                    icon: 'error',
+                    confirmButtonText: 'Cool'
+                })
+            })
+        }
+    })
 }

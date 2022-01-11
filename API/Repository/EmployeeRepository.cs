@@ -40,8 +40,16 @@ namespace API.Repository
             }
 
             int increment = myContext.Employees.ToList().Count;
-            //variabel nik
-            string formattedNIK = DateTime.Now.ToString("yyyy") + "0" + increment.ToString();
+            string formattedNIK = "";
+            if (increment == 0)
+            {
+                formattedNIK = DateTime.Now.ToString("yyyy") + "0" + increment.ToString();
+            }
+            else
+            {
+                formattedNIK = Int32.Parse(myContext.Employees.ToList().Max(e => e.NIK) + 1 ).ToString();
+            }
+
             int result;
             var employee = new Employee()
             {
