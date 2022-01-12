@@ -24,8 +24,353 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Employees
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="tableEmployee">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">University Name</th>
+                                    <th scope="col">Salary</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <div class="card-title">University Chart</div>
+                    </div>
+                    <div class="card-body">
+                        <div id="university-chart">
+                            <apexchart type="heatmap" height="350" :options="chartOptions" :series="series"></apexchart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <div class="card-title">Gender Chart</div>
+                    </div>
+                    <div class="card-body">
+                        <div id="gender-chart">
+                            <apexchart type="heatmap" height="350" :options="chartOptions" :series="series"></apexchart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+@*MODALS*@
+<!-- Modal Detail -->
+<div class="modal fade" id="emp-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Employee Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <td class="font-weight-bold">Full name</td>
+                        <td id="detail-fullname" class="h5"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Birthdate</td>
+                        <td id="detail-birthdate" class="h5"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Salary</td>
+                        <td id="detail-salary" class="h6"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Email</td>
+                        <td id="detail-email" class="h6"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Gender</td>
+                        <td id="detail-gender" class="h6"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Degree</td>
+                        <td id="detail-degree" class="h6"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">GPA</td>
+                        <td id="detail-gpa" class="h6"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">University Name</td>
+                        <td id="detail-univ" class="h6"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Create -->
+<div class="modal fade" id="emp-create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-create">
+                    <div class="bordered">
+                        <h6>Employee Data</h6>
+                    </div>
+                    <div class="form-row bordered">
+                        <div class="form-group col-md-6">
+                            <label for="inputFirstName">First Name</label>
+                            <input type="text" class="form-control" id="inputFirstName" name="firstname" placeholder="Nama depan" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLastName">Last Name</label>
+                            <input type="text" class="form-control" id="inputLastName" name="lastname" placeholder="Nama belakang" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputPhone">Phone number</label>
+                            <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="0852xxxxx" required />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputGender">Gender</label>
+                            <select id="inputGender" name="gender" class="form-control">
+                                <option selected>Choose...</option>
+                                <option value=0>Male</option>
+                                <option value=1>Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputBirthDate">BirthDate</label>
+                            <input type="date" class="form-control" id="inputBirthDate" name="birthdate" placeholder="" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="inputSalary">Salary</label>
+                            <input type="text" class="form-control" id="inputSalary" name="salary" placeholder="5000000">
+                        </div>
+                    </div>
+                    <div class="bordered">
+                        <h6>Employee Account</h6>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Email</label>
+                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">Password</label>
+                            <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password" pattern=".{8,}" required>
+                        </div>
+                    </div>
+                    <div class="bordered">
+                        <h6>Employee Education</h6>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputUniv">University Name</label>
+                            <select class="form-control" name="univ" id="inputUniv">
+                                @*<option value=1>Institut Pertanian Bogor</option>
+                                    <option value=2>Telkom University</option>
+                                    <option value=3>Institut Teknologi Bandung</option>
+                                    <option value=4>Universitas Pakuan</option>*@
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputDegree">Degree</label>
+                            <select id="inputDegree" name="degree" class="form-control">
+                                <option selected>Choose...</option>
+                                <option>D1</option>
+                                <option>D2</option>
+                                <option>D3</option>
+                                <option>S1/D4</option>
+                                <option>S1</option>
+                                <option>S3</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputGPA">GPA</label>
+                            <input type="text" class="form-control" id="inputGPA" name="gpa" placeholder=3.99>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        @*<button type="submit" onclick=postEmployee() class="btn btn-primary">Add</button>*@
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Update -->
+<div class="modal fade" id="emp-update-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="bordered">
+                        <h6>Employee Data</h6>
+                    </div>
+                    <div class="form-row bordered">
+                        <div class="form-group col-md-6">
+                            <label for="inputFirstNameUpdate">First Name</label>
+                            <input type="text" class="form-control" id="inputFirstNameUpdate" placeholder="Nama depan">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLastNameUpdate">Last Name</label>
+                            <input type="text" class="form-control" id="inputLastNameUpdate" placeholder="Nama belakang">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputPhoneUpdate">Phone number</label>
+                            <input type="text" class="form-control" id="inputPhoneUpdate" placeholder="0852xxxxx" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputGenderUpdate">Gender</label>
+                            <select id="inputGenderUpdate" class="form-control">
+                                <option selected>Choose...</option>
+                                <option value=0>Male</option>
+                                <option value=1>Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputBirthDateUpdate">BirthDate</label>
+                            <input type="date" class="form-control" id="inputBirthDateUpdate" placeholder="" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="inputSalaryUpdate">Salary</label>
+                            <input type="text" class="form-control" id="inputSalaryUpdate" placeholder="5000000">
+                        </div>
+                    </div>
+
+                    @*<div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=0>
+                            <label class="form-check-label" for="inlineRadio1">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value=1>
+                            <label class="form-check-label" for="inlineRadio2">Female</label>
+                        </div>*@
+                    <div class="bordered">
+                        <h6>Employee Account</h6>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmailUpdate">Email</label>
+                            <input type="email" class="form-control" id="inputEmailUpdate" placeholder="Email">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPasswordUpdate">Password</label>
+                            <input type="password" class="form-control" id="inputPasswordUpdate" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="bordered">
+                        <h6>Employee Education</h6>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputUnivUpdate">University Name</label>
+                            <select class="form-control" id="inputUnivUpdate">
+                                <option value=1>Institut Pertanian Bogor</option>
+                                <option value=2>Telkom University</option>
+                                <option value=3>Institut Teknologi Bandung</option>
+                                <option value=4>Universitas Pakuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputDegreeUpdate">Degree</label>
+                            <select id="inputDegreeUpdate" class="form-control">
+                                <option selected>Choose...</option>
+                                <option>D1</option>
+                                <option>D2</option>
+                                <option>D3</option>
+                                <option>S1/D4</option>
+                                <option>S1</option>
+                                <option>S3</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputGPAUpdate">GPA</label>
+                            <input type="number" class="form-control" id="inputGPAUpdate" placeholder=3.99>
+                        </div>
+                    </div>
+                    @*<button type="submit" class="btn btn-primary">Sign in</button>*@
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="~/js/employee.js"></script>
+    <script src="~/js/chart.js"></script>
+}
+

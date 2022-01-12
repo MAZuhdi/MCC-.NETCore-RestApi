@@ -172,5 +172,17 @@ namespace API.Repository
                 .ToList();
             return data;
         }
+
+        public IEnumerable GetGenderStat()
+        {
+            var query = (from employee in myContext.Set<Employee>()
+                         group employee by employee.Gender into g
+                         select new
+                         {
+                             gender = g.Key,
+                             count = g.Count()
+                         });
+            return query.ToList();
+        }
     }
 }

@@ -88,5 +88,24 @@ namespace API.Controllers
         {
             return Ok("Test CORS Berhasil");
         }
+
+        [HttpGet("GenderStat")]
+        public ActionResult GenderStat()
+        {
+            try
+            {
+                var data = employeeRepository.GetGenderStat();
+                if (data == null)
+                {
+                    return Ok(new { status = "success", data = "no data found" });
+                }
+
+                return Ok(new { status = "success", data = data });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { status = "failed", message = e });
+            }
+        }
     }
 }

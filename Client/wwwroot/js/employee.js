@@ -74,8 +74,8 @@ $(document).ready(function () {
                 data: null,
                 bsortable: false,
                 render: function (data, type, row) {
-                    return `<button class="btn btn-info" data-toggle="modal" data-target="#emp-detail-modal" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-info-circle-fill"></i></button>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#emp-update-modal" onclick="getDetails(\`${row['url']}\`)"><i class="bi bi-pencil-fill"></i></button>
+                    return `<button class="btn btn-info" data-toggle="modal" data-target="#emp-detail-modal" onclick="getDetails(\`${data.nik}\`)"><i class="bi bi-info-circle-fill"></i></button>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#emp-update-modal" onclick="getDetails(\`${data.nik}\`)"><i class="bi bi-pencil-fill"></i></button>
                             <button class="btn btn-danger" onclick="deleteEmployee(\`${data.nik}\`)"><i class="bi bi-trash-fill"></i></button>
                             `;
                 }
@@ -210,7 +210,7 @@ function postEmployee() {
     data.FirstName = $("#inputFirstName").val();
     data.LastName = $("#inputLastName").val();
     data.Phone = $("#inputPhone").val();
-    data.BirtDate = $("#inputBirthDate").val();
+    data.BirthDate = $("#inputBirthDate").val();
     data.Salary = parseInt($("#inputSalary").val());
     data.Email = $("#inputEmail").val();
     data.Gender = parseInt($("#inputGender").val());
@@ -251,14 +251,30 @@ function postEmployee() {
     })
 }
 
-function getDetail(link) {
+function getDetails(nik) {
     $.ajax({
-        url: link
+        url: "https://localhost:44367/Api/Employees/Registered"
     }).done((result) => {
-        console.log(result);
-        
-        document.getElementById("detail-fullname").innerHTML = result.data.fullname;
+        let selectedObj;
+        console.log(result.data);
+        Object.entries(result.data).forEach(([key, val]) => {
+            //console.log(key); // the name of the current key.
+            //console.log(val); // the value of the current key.
 
+            if (val.nik == nik) {
+                selectedObj = val;
+            }
+        });
+
+        console.log(selectedObj);
+        document.getElementById("inputFirstNameUpdate").value = selectedObj.fullName;
+        document.getElementById("inputDegreeUpdate").value = selectedObj.degree;
+        document.getElementById("inputEmailUpdate").value = selectedObj.email;
+        document.getElementById("inputGenderUpdate").value = selectedObj.gender;
+        document.getElementById("inputGPAUpdate").value = selectedObj.gpa;
+        document.getElementById("inputPhoneUpdate").value = selectedObj.phoneNumber;
+        document.getElementById("inputSalaryUpdate").value = selectedObj.salary;
+        document.getElementById("inputBirthDateUpdate").value = selectedObj.birthDate;
     }).fail((error) => {
         console.log(error);
     });
