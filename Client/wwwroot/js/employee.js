@@ -1,5 +1,5 @@
 ﻿$.ajax({
-    url: "/employees/getregistered"
+    url: "/employees/registered"
 }).done((result) => {
     console.log(result);
 })
@@ -8,7 +8,7 @@ let empTable = $('#tableEmployee');
 $(document).ready(function () {
     empTable.DataTable({
         ajax: {
-            'url': "/employees/getregistered",
+            'url': "/employees/registered",
             'dataType': 'json',
             'dataSrc': ''
         },
@@ -396,13 +396,10 @@ function deleteEmployee(nik) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            let data = Object();
-            data.nik = nik;
             $.ajax({
-                url: "/Employees/Delete",
-                /*url: "https://localhost:44367/Api/Employees/" + nik,*/
+                //url: "/Employees/Delete/" + nik,
+                url: "/Employees/Registered/" + nik,
                 type: "DELETE",
-                data: data
             }).done((result) => {
                 console.log("success");
                 Swal.fire({

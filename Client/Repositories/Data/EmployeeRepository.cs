@@ -65,5 +65,11 @@ namespace Client.Repositories.Data
             var result = httpClient.PostAsync(address.link + request + "Register/", content).Result;
             return result.StatusCode;
         }
+
+        public HttpStatusCode DeleteRegistered(string id)
+        {
+            var result = httpClient.DeleteAsync(request + "Registered/" + id).Result;
+            return result.StatusCode;
+        }
     }
 }

@@ -105,6 +105,47 @@ namespace API.Controllers
 
         }
 
+        [HttpDelete("Registered/{nik}")]
+        public ActionResult DeleteRegistered(string nik)
+        {
+            try
+            {
+                var delete = employeeRepository.DeleteRegistered(nik);
+                if (delete == 2)
+                {
+                    return NotFound(new
+                    {
+                        status = "failed",
+                        message = "Record not found"
+                    });
+                }
+                if (delete > 0)
+                {
+                    return Ok(new
+                    {
+                        status = "success",
+                        message = "record successfuly deleted"
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        status = "failed",
+                        message = "bad request"
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new
+                {
+                    status = "failed",
+                    message = "bad request " + e
+                });
+            }
+        }
+
         [HttpGet("TestCORS")]
         public ActionResult TestCORS()
         {

@@ -29,16 +29,16 @@ namespace Client.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetRegistered()
+        public async Task<JsonResult> Registered()
         {
             var result = await repository.GetRegistered();
             return Json(result);
         }
 
-        [HttpGet("Employees/GetRegistered/{NIK}")]
-        public async Task<JsonResult> GetRegisteredByNIK(string NIK)
+        [HttpGet("Employees/Registered/{nik}")]
+        public async Task<JsonResult> GetRegisteredByNIK(string nik)
         {
-            var result = await repository.GetRegisteredByNIK(NIK);
+            var result = await repository.GetRegisteredByNIK(nik);
             return Json(result);
         }
 
@@ -46,6 +46,13 @@ namespace Client.Controllers
         public JsonResult Register(RegisterVM entity)
         {
             var result = repository.Register(entity);
+            return Json(result);
+        }
+
+        [HttpDelete("Employees/Registered/{nik}")]
+        public JsonResult DeleteRegistered(string nik)
+        {
+            var result = repository.DeleteRegistered(nik);
             return Json(result);
         }
     }

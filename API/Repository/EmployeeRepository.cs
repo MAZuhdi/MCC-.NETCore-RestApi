@@ -215,6 +215,26 @@ namespace API.Repository
             return selectedData;
         }
 
+        public int DeleteRegistered(string nik)
+        {
+            //var employee = myContext.Employees.Find(nik);
+            var employee = myContext.Employees.Where(e => e.NIK == nik)
+                    .Include(e => e.Account)
+                        .ThenInclude(a => a.Profiling)
+                    .FirstOrDefault();
+            
+            if (employee == null)
+            {
+                return 2; //Record not found
+            }
+            var educationId = employee.Account.Profiling.EducationId;
+            myContext.Remove(employee);
+            var education = myContext.Educations.Find(educationId);
+            myContext.Remove(education);
+            var result = myContext.SaveChanges();
+            return result;
+        }
+
         public IEnumerable GetRegisteredDataAlt()
         {
             var data = myContext.Employees
