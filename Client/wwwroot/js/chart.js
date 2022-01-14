@@ -8,7 +8,40 @@ $(document).ready(function () {
 
         var gender_chart_options = {
             chart: {
-                type: 'donut'
+                type: 'donut',
+                toolbar: {
+                    show: true,
+                    offsetX: 0,
+                    offsetY: 0,
+                    tools: {
+                        download: true,
+                        selection: true,
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                        reset: true | '<img src="/static/icons/reset.png" width="20">',
+                        customIcons: []
+                    },
+                    export: {
+                        csv: {
+                            filename: undefined,
+                            columnDelimiter: ',',
+                            headerCategory: 'category',
+                            headerValue: 'value',
+                            dateFormatter(timestamp) {
+                                return new Date(timestamp).toDateString()
+                            }
+                        },
+                        svg: {
+                            filename: undefined,
+                        },
+                        png: {
+                            filename: undefined,
+                        }
+                    },
+                    autoSelected: 'zoom'
+                }
             },
             series: [result.data[0].count, result.data[1].count],
             labels: ['Male', 'Female']
@@ -38,13 +71,47 @@ $(document).ready(function () {
         console.log(dataUniversityName);
         var university_chart_options = {
             chart: {
-                type: 'bar'
+                type: 'bar',
+                toolbar: {
+                    show: true,
+                    offsetX: 0,
+                    offsetY: 0,
+                    tools: {
+                        download: true,
+                        selection: true,
+                        zoom: true,
+                        zoomin: true,
+                        zoomout: true,
+                        pan: true,
+                        reset: true | '<img src="/static/icons/reset.png" width="20">',
+                        customIcons: []
+                    },
+                    export: {
+                        csv: {
+                            filename: undefined,
+                            columnDelimiter: ',',
+                            headerCategory: 'category',
+                            headerValue: 'value',
+                            dateFormatter(timestamp) {
+                                return new Date(timestamp).toDateString()
+                            }
+                        },
+                        svg: {
+                            filename: undefined,
+                        },
+                        png: {
+                            filename: undefined,
+                        }
+                    },
+                    autoSelected: 'zoom'
+                }
             },
             series: [{
                 name: 'count',
                 data: dataCount
             }],
             xaxis: {
+                tickPlacement: 'on',
                 categories: dataUniversityName
             }
         }

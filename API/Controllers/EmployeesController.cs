@@ -54,7 +54,29 @@ namespace API.Controllers
                     return Ok(new { status = "success", data = "no data found" });
                 }
 
-                return Ok(new { status = "success", data = registeredData });
+                //return Ok(new { status = "success", data = registeredData });
+                return Ok(registeredData);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { status = "failed", message = e });
+            }
+
+        }
+
+        [HttpGet("Registered/{NIK}")]
+        public ActionResult RegisteredDataByNik(string NIK)
+        {
+            try
+            {
+                var registeredData = employeeRepository.GetRegisteredDataByNIK(NIK);
+                if (registeredData == null)
+                {
+                    return NotFound();
+                }
+
+                //return Ok(new { status = "success", data = registeredData });
+                return Ok(registeredData);
             }
             catch (Exception e)
             {

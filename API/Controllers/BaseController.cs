@@ -31,7 +31,8 @@ namespace API.Controllers
                 {
                     return Ok(new { status = "success", data = "null", message = "no data found" });
                 }
-                return Ok(new { status = "success", data = result, message = "all of data" });
+                //return Ok(new { status = "success", data = result, message = "all of data" });
+                return Ok(result);
             }
             catch (Exception e)
             {

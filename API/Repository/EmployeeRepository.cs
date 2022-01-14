@@ -47,7 +47,8 @@ namespace API.Repository
             }
             else
             {
-                formattedNIK = Int32.Parse(myContext.Employees.ToList().Max(e => e.NIK) + 1 ).ToString();
+                int increment2 = Int32.Parse(myContext.Employees.ToList().Max(e => e.NIK)) + 1;
+                formattedNIK = increment2.ToString();
             }
 
             int result;
@@ -147,8 +148,11 @@ namespace API.Repository
                             on profiling.EducationId equals education.Id
                         join university in myContext.Set<University>()
                             on education.UniversityId equals university.Id
-                        select new {
+                        select new RegisteredVM
+                        {
                             NIK = employee.NIK,
+                            FirstName = employee.FirstName,
+                            LastName = employee.LastName,
                             FullName = employee.FirstName + " " + employee.LastName,
                             PhoneNumber = employee.Phone,
                             BirthDate = employee.BirthDate,
@@ -160,6 +164,55 @@ namespace API.Repository
                             UniversityName = university.Name
                         });
             return query.ToList();
+        }
+
+        //public RegisteredVM GetRegisteredDataByNIK(string nik)
+        //{
+        //    var alldata = GetRegisteredData();
+
+        //    RegisteredVM selectedData = new RegisteredVM();
+
+        //    foreach (RegisteredVM item in alldata)
+        //    {
+        //        if (item.NIK == nik)
+        //        {
+        //            selectedData = item;
+        //        }
+        //    }
+
+        //    return selectedData;
+        //}
+
+        public RegisteredVM GetRegisteredDataByNIK(string nik)
+        {
+            var query = myContext.Employees.Where(e => e.NIK == nik)
+                                            .Include(e => e.Account)
+                                                .ThenInclude(a => a.Profiling)
+                                                    .ThenInclude(p => p.Education)
+                                                        .ThenInclude(e => e.University)
+                                            .FirstOrDefault();
+
+            if (query == null)
+            {
+                return null;
+            }
+
+            var selectedData = new RegisteredVM{
+                NIK = query.NIK,
+                FirstName = query.FirstName,
+                LastName = query.LastName,
+                FullName = query.FirstName + " " + query.LastName,
+                PhoneNumber = query.Phone,
+                BirthDate = query.BirthDate,
+                Gender = query.Gender,
+                Salary = query.Salary,
+                Email = query.Email,
+                Degree = query.Account.Profiling.Education.Degree,
+                GPA = query.Account.Profiling.Education.GPA,
+                UniversityName = query.Account.Profiling.Education.University.Name
+            };
+
+            return selectedData;
         }
 
         public IEnumerable GetRegisteredDataAlt()

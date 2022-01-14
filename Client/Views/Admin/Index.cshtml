@@ -61,25 +61,25 @@
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <div class="card-title">University Chart</div>
                     </div>
                     <div class="card-body">
                         <div id="university-chart">
-                            <apexchart type="heatmap" height="350" :options="chartOptions" :series="series"></apexchart>
+                            <!--<apexchart--> @*height="350" :options="chartOptions" :series="series"*@<!--></apexchart>-->
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-6">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <div class="card-title">Gender Chart</div>
                     </div>
                     <div class="card-body">
                         <div id="gender-chart">
-                            <apexchart type="heatmap" height="350" :options="chartOptions" :series="series"></apexchart>
+                            @*<apexchart height="350" :options="chartOptions" :series="series"></apexchart>*@
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,6 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
 @*MODALS*@
 <!-- Modal Detail -->
 <div class="modal fade" id="emp-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -103,8 +102,16 @@
             <div class="modal-body">
                 <table class="table">
                     <tr>
+                        <td class="font-weight-bold">NIK</td>
+                        <td id="detail-nik" class="h5"></td>
+                    </tr>
+                    <tr>
                         <td class="font-weight-bold">Full name</td>
                         <td id="detail-fullname" class="h5"></td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Phone</td>
+                        <td id="detail-phone" class="h5"></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Birthdate</td>
@@ -112,27 +119,27 @@
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Salary</td>
-                        <td id="detail-salary" class="h6"></td>
+                        <td id="detail-salary" class="h5"></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Email</td>
-                        <td id="detail-email" class="h6"></td>
+                        <td id="detail-email" class="h5"></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Gender</td>
-                        <td id="detail-gender" class="h6"></td>
+                        <td id="detail-gender" class="h5"></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Degree</td>
-                        <td id="detail-degree" class="h6"></td>
+                        <td id="detail-degree" class="h5"></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">GPA</td>
-                        <td id="detail-gpa" class="h6"></td>
+                        <td id="detail-gpa" class="h5"></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">University Name</td>
-                        <td id="detail-univ" class="h6"></td>
+                        <td id="detail-univ" class="h5"></td>
                     </tr>
                 </table>
             </div>
@@ -262,29 +269,30 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="form-update">
                     <div class="bordered">
                         <h6>Employee Data</h6>
                     </div>
+                    <input type="text" class="form-control" id="inputNik" hidden>
                     <div class="form-row bordered">
                         <div class="form-group col-md-6">
                             <label for="inputFirstNameUpdate">First Name</label>
-                            <input type="text" class="form-control" id="inputFirstNameUpdate" placeholder="Nama depan">
+                            <input type="text" class="form-control" id="inputFirstNameUpdate" name="firstnameUpdate" placeholder="Nama depan">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputLastNameUpdate">Last Name</label>
-                            <input type="text" class="form-control" id="inputLastNameUpdate" placeholder="Nama belakang">
+                            <input type="text" class="form-control" id="inputLastNameUpdate" name="lastnameUpdate" placeholder="Nama belakang">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="inputPhoneUpdate">Phone number</label>
-                            <input type="text" class="form-control" id="inputPhoneUpdate" placeholder="0852xxxxx" />
+                            <input type="text" class="form-control" id="inputPhoneUpdate" name="phoneUpdate" placeholder="0852xxxxx" />
                         </div>
                         <div class="form-group col-md-4">
                             <label for="inputGenderUpdate">Gender</label>
-                            <select id="inputGenderUpdate" class="form-control">
+                            <select id="inputGenderUpdate" name="genderUpdate" class="form-control">
                                 <option selected>Choose...</option>
                                 <option value=0>Male</option>
                                 <option value=1>Female</option>
@@ -292,76 +300,28 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="inputBirthDateUpdate">BirthDate</label>
-                            <input type="date" class="form-control" id="inputBirthDateUpdate" placeholder="" />
+                            <input type="date" class="form-control" name="birthdateUpdate" id="inputBirthDateUpdate" placeholder="" />
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-8">
                             <label for="inputSalaryUpdate">Salary</label>
-                            <input type="text" class="form-control" id="inputSalaryUpdate" placeholder="5000000">
+                            <input type="text" class="form-control" name="salaryUpdate" id="inputSalaryUpdate" placeholder="5000000">
                         </div>
-                    </div>
-
-                    @*<div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=0>
-                            <label class="form-check-label" for="inlineRadio1">Male</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value=1>
-                            <label class="form-check-label" for="inlineRadio2">Female</label>
-                        </div>*@
-                    <div class="bordered">
-                        <h6>Employee Account</h6>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputEmailUpdate">Email</label>
-                            <input type="email" class="form-control" id="inputEmailUpdate" placeholder="Email">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputPasswordUpdate">Password</label>
-                            <input type="password" class="form-control" id="inputPasswordUpdate" placeholder="Password">
+                        <div class="form-group col-md-8">
+                            <label for="inputEmail4">Email</label>
+                            <input type="email" class="form-control" id="inputEmailUpdate" name="emailUpdate" placeholder="Email" required>
                         </div>
                     </div>
-                    <div class="bordered">
-                        <h6>Employee Education</h6>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputUnivUpdate">University Name</label>
-                            <select class="form-control" id="inputUnivUpdate">
-                                <option value=1>Institut Pertanian Bogor</option>
-                                <option value=2>Telkom University</option>
-                                <option value=3>Institut Teknologi Bandung</option>
-                                <option value=4>Universitas Pakuan</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="inputDegreeUpdate">Degree</label>
-                            <select id="inputDegreeUpdate" class="form-control">
-                                <option selected>Choose...</option>
-                                <option>D1</option>
-                                <option>D2</option>
-                                <option>D3</option>
-                                <option>S1/D4</option>
-                                <option>S1</option>
-                                <option>S3</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="inputGPAUpdate">GPA</label>
-                            <input type="number" class="form-control" id="inputGPAUpdate" placeholder=3.99>
-                        </div>
-                    </div>
-                    @*<button type="submit" class="btn btn-primary">Sign in</button>*@
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

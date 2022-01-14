@@ -1,5 +1,5 @@
 ﻿$.ajax({
-    url: "https://localhost:44367/Api/Employees/Registered"
+    url: "/employees/getregistered"
 }).done((result) => {
     console.log(result);
 })
@@ -8,9 +8,9 @@ let empTable = $('#tableEmployee');
 $(document).ready(function () {
     empTable.DataTable({
         ajax: {
-            'url': "https://localhost:44367/Api/Employees/Registered",
+            'url': "/employees/getregistered",
             'dataType': 'json',
-            'dataSrc': 'data'
+            'dataSrc': ''
         },
         dom: 'Bfrtip',
         buttons: [
@@ -132,10 +132,11 @@ $('#emp-create-modal').on('show.bs.modal', function () {
 
 function getUniversity() {
     $.ajax({
-        url: 'https://localhost:44367/API/universities'
+        url: '/universities/getall'
     }).done((data) => {
+        console.log(data);
         var universitySelect = '';
-        $.each(data.data, function (key, val) {
+        $.each(data, function (key, val) {
             universitySelect += `<option value='${val.id}'>${val.name}</option>`
         });
         $("#inputUniv").html(universitySelect);
@@ -145,64 +146,67 @@ function getUniversity() {
 }
 //dijalankan kalo kita klik submit
 $("#form-create").submit(function (event) {
-    $("#form-create").validate({
-        //validasi
-        rules: {
-            //atribut name
-            firstname: {
-                required: true
-            },
-            lastname: {
-                required: true
-            },
-            phone: {
-                required: true
-            },
-            gender: {
-                required: true
-            },
-            birthdate: {
-                required: true
-            },
-            salary: {
-                required: true,
-                number: true
-            },
-            email: {
-                required: true,
-                email: true
-            },
-            password: {
-                required: true,
-                minlength: 8
-            },
-            univ: {
-                required: true
-            },
-            degree: {
-                required: true
-            },
-            gpa: {
-                required: true,
-                number: true,
-                range: [0, 4]
-            }
-        },
-/*        errorPlacement: function (error, element) { },*/
-        highlight: function (element) {
-            $(element).closest('.form-control').addClass('is-invalid');
-        },
-        unhighlight: function (element) {
-            $(element).closest('.form-control').removeClass('is-invalid');
-        },
-        //yang dilakukan jika rules nya terpenuhi semua
-        submitHandler: function (form) {
-            postEmployee(); //request POST
-        }
-    });
         
     event.preventDefault(); //buat nahan ga reload
 });
+
+$("#form-create").validate({
+    //validasi
+    rules: {
+        //atribut name
+        firstname: {
+            required: true
+        },
+        lastname: {
+            required: true
+        },
+        phone: {
+            required: true
+        },
+        gender: {
+            required: true
+        },
+        birthdate: {
+            required: true
+        },
+        salary: {
+            required: true,
+            number: true
+        },
+        email: {
+            required: true,
+            email: true
+        },
+        password: {
+            required: true,
+            minlength: 8
+        },
+        univ: {
+            required: true
+        },
+        degree: {
+            required: true
+        },
+        gpa: {
+            required: true,
+            number: true,
+            range: [0, 4]
+        }
+    },
+    /*        errorPlacement: function (error, element) { },*/
+    highlight: function (element) {
+        $(element).closest('.form-control').addClass('is-invalid');
+    },
+    unhighlight: function (element) {
+        $(element).closest('.form-control').removeClass('is-invalid');
+    },
+    //yang dilakukan jika rules nya terpenuhi semua
+    submitHandler: function (form) {
+        postEmployee(); //request POST
+    }
+});
+
+
 
 function postEmployee() {
     let data = Object();
@@ -223,14 +227,9 @@ function postEmployee() {
     console.log(JSON.stringify(data));
 
     $.ajax({
-        url: "https://localhost:44367/Api/Employees/Register",
-        type: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json'
-        },
-        dataType: "json",
-        data: JSON.stringify(data)
+        url: "Employees/Register",
+        type: "post",
+        data: data
     }).done((result) => {
         console.log("success");
         Swal.fire({
@@ -253,31 +252,137 @@ function postEmployee() {
 
 function getDetails(nik) {
     $.ajax({
-        url: "https://localhost:44367/Api/Employees/Registered"
+        url: "/Employees/GetRegistered/"+nik
     }).done((result) => {
-        let selectedObj;
-        console.log(result.data);
-        Object.entries(result.data).forEach(([key, val]) => {
-            //console.log(key); // the name of the current key.
-            //console.log(val); // the value of the current key.
+        console.log(result);
 
-            if (val.nik == nik) {
-                selectedObj = val;
-            }
-        });
+        console.log(result);
+        document.getElementById("inputNik").value = result.nik;
+        document.getElementById("inputFirstNameUpdate").value = result.firstName;
+        document.getElementById("inputLastNameUpdate").value = result.lastName;
+        document.getElementById("inputEmailUpdate").value = result.email;
+        document.getElementById("inputBirthDateUpdate").value = result.birthDate;
+        document.getElementById("inputGenderUpdate").value = result.gender;
+        document.getElementById("inputPhoneUpdate").value = result.phoneNumber;
+        document.getElementById("inputSalaryUpdate").value = result.salary;
+        //document.getElementById("inputGPAUpdate").value = result.gpa;
+        //document.getElementById("inputDegreeUpdate").value = result.degree;
 
-        console.log(selectedObj);
-        document.getElementById("inputFirstNameUpdate").value = selectedObj.fullName;
-        document.getElementById("inputDegreeUpdate").value = selectedObj.degree;
-        document.getElementById("inputEmailUpdate").value = selectedObj.email;
-        document.getElementById("inputGenderUpdate").value = selectedObj.gender;
-        document.getElementById("inputGPAUpdate").value = selectedObj.gpa;
-        document.getElementById("inputPhoneUpdate").value = selectedObj.phoneNumber;
-        document.getElementById("inputSalaryUpdate").value = selectedObj.salary;
-        document.getElementById("inputBirthDateUpdate").value = selectedObj.birthDate;
+        document.getElementById("detail-nik").innerHTML = result.nik;
+        document.getElementById("detail-fullname").innerHTML = result.fullName;
+        document.getElementById("detail-degree").innerHTML = result.degree;
+        document.getElementById("detail-email").innerHTML = result.email;
+        document.getElementById("detail-gender").innerHTML = result.gender;
+        document.getElementById("detail-gpa").innerHTML = result.gpa;
+        document.getElementById("detail-phone").innerHTML = result.phoneNumber;
+        document.getElementById("detail-salary").innerHTML = result.salary;
+        document.getElementById("detail-birthdate").innerHTML = result.birthDate;
+        document.getElementById("detail-univ").innerHTML = result.universityName;
+
     }).fail((error) => {
         console.log(error);
     });
+}
+
+
+//dijalankan kalo kita klik submit
+$("#form-update").submit(function (event) {
+
+    event.preventDefault(); //buat nahan ga reload
+});
+
+$("#form-update").validate({
+    //validasi
+    rules: {
+        //atribut name
+        firstnameUpdate: {
+            required: true
+        },
+        lastnameUpdate: {
+            required: true
+        },
+        phoneUpdate: {
+            required: true
+        },
+        genderUpdate: {
+            required: true
+        },
+        birthdateUpdate: {
+            required: true
+        },
+        salaryUpdate: {
+            required: true,
+            number: true
+        },
+        emailUpdate: {
+            required: true,
+            email: true
+        }
+        //password: {
+        //    required: true,
+        //    minlength: 8
+        //},
+        //univ: {
+        //    required: true
+        //},
+        //degree: {
+        //    required: true
+        //},
+        //gpa: {
+        //    required: true,
+        //    number: true,
+        //    range: [0, 4]
+        //}
+    },
+    /*        errorPlacement: function (error, element) { },*/
+    highlight: function (element) {
+        $(element).closest('.form-control').addClass('is-invalid');
+    },
+    unhighlight: function (element) {
+        $(element).closest('.form-control').removeClass('is-invalid');
+    },
+    //yang dilakukan jika rules nya terpenuhi semua
+    submitHandler: function (form) {
+        updateEmployee(); //request POST
+    }
+});
+function updateEmployee() {
+    let data = Object();
+
+    data.nik = $("#inputNik").val();
+    data.FirstName = $("#inputFirstNameUpdate").val();
+    data.LastName = $("#inputLastNameUpdate").val();
+    data.Phone = $("#inputPhoneUpdate").val();
+    data.BirthDate = $("#inputBirthDateUpdate").val();
+    data.Salary = parseInt($("#inputSalaryUpdate").val());
+    data.Email = $("#inputEmailUpdate").val();
+    data.Gender = parseInt($("#inputGenderUpdate").val());
+
+    console.log(data);
+    console.log(JSON.stringify(data));
+
+    $.ajax({
+        url: "/Employees/Put",
+        type: "PUT",
+        data: data
+    }).done((result) => {
+        console.log("success");
+        Swal.fire({
+            title: 'Success!',
+            text: 'Data successfuly updated',
+            icon: 'success',
+            confirmButtonText: 'Cool'
+        })
+        $('#emp-create-modal').modal('hide');
+        empTable.DataTable().ajax.reload();
+    }).fail((error) => {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'Cool'
+        })
+    })
 }
 
 function deleteEmployee(nik) {
@@ -291,14 +396,13 @@ function deleteEmployee(nik) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
+            let data = Object();
+            data.nik = nik;
             $.ajax({
-                url: "https://localhost:44367/Api/Employees/" + nik,
+                url: "/Employees/Delete",
+                /*url: "https://localhost:44367/Api/Employees/" + nik,*/
                 type: "DELETE",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                dataType: "json",
+                data: data
             }).done((result) => {
                 console.log("success");
                 Swal.fire({
