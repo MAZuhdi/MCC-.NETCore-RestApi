@@ -252,7 +252,7 @@ function postEmployee() {
 
 function getDetails(nik) {
     $.ajax({
-        url: "/Employees/GetRegistered/"+nik
+        url: "/Employees/Registered/"+nik
     }).done((result) => {
         console.log(result);
 
