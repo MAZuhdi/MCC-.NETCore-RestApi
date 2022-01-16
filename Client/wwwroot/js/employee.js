@@ -189,8 +189,6 @@ $("#form-create").validate({
         },
         gpa: {
             required: true,
-            number: true,
-            range: [0, 4]
         }
     },
     /*        errorPlacement: function (error, element) { },*/

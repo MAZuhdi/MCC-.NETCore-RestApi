@@ -36,11 +36,11 @@ namespace API.Controllers
 
             if (login == 2)
             {
-                return Unauthorized(new { status = "failed", message = "Akun tidak ditemukan" });
+                return Unauthorized(new JWTokenVM{ status = login.ToString(), idToken = null, message = "Akun tidak ditemukan" });
             }
             if (login == 3)
             {
-                return Unauthorized(new { status = "failed", message = "Password salah" });
+                return Unauthorized(new JWTokenVM{ status = login.ToString(), idToken = null, message = "Password salah" });
             }
             if (login == 1)
             {
@@ -67,7 +67,7 @@ namespace API.Controllers
                             );
                 var idtoken = new JwtSecurityTokenHandler().WriteToken(token); //Generate token
                 claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
-                return Ok(new { status = "success", idtoken, message = "Successfuly logged in" });
+                return Ok(new JWTokenVM{ status = "success", idToken = idtoken, message = "Successfuly logged in" });
             }
             else
             {
