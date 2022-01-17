@@ -25,10 +25,15 @@
             <div class="card-body">
                 @*<h5 class="card-title">login</h5>*@
                 <form id="form-login" action="/auth" method="post" class="px-4">
-                    @*@if (status == 2)
+                    @if (TempData["message"] != null)
                     {
-                        <p>The price is too high.</p>
-                    }*@
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["message"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    }
                     <div class="form-group">
                         <label for="InputEmail">Email address</label>
                         <input type="email" class="form-control" id="Email" name="Email" aria-describedby="emailHelp" placeholder="Enter email" required>

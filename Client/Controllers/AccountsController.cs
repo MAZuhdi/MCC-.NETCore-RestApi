@@ -44,14 +44,7 @@ namespace Client.Controllers
 
             if (token == null)
             {
-                if (jwtToken.status == "2")
-                {
-                    return RedirectToAction("index", "login", new { status = 2 });
-                }
-                if (jwtToken.status == "3")
-                {
-                    return RedirectToAction("index", "login", new { status = 3 });
-                }
+                TempData["message"] = jwtToken.message;
                 return RedirectToAction("index", "login");
             }
 
