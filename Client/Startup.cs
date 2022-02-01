@@ -94,9 +94,14 @@ namespace Client
             app.UseStatusCodePages(async context => {
                 var response = context.HttpContext.Response;
 
-                if (response.StatusCode == (int)HttpStatusCode.Unauthorized ||
-                    response.StatusCode == (int)HttpStatusCode.Forbidden)
-                    response.Redirect("/Login");
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+                    response.Redirect("/Unauthorize");
+
+                if (response.StatusCode == (int)HttpStatusCode.Forbidden)
+                    response.Redirect("/Forbidden");
+
+                if (response.StatusCode == (int)HttpStatusCode.NotFound)
+                    response.Redirect("/NotFound");
             });
 
             app.UseRouting();

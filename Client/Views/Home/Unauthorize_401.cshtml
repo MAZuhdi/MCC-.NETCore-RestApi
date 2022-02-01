@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Unauthorize_401";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row align-items-center mt-5">
+    <div class="col-lg-6">
+        <div class="pr-5">
+            <h1 class="display-2 text-light font-weight-bold nb-0">401 Unauthorize</h1>
+            <h2 class="display-4 text-light font-weight-light">You don't have accesss</h2>
+            <p class="text-light mt-4">You will be redirected to login page in <span id="timer">5</span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set the date we're counting down to
+    var second = 5;
+
+    // Update the count down every 1 second
+    var setTimer = setInterval(function () {
+    if (second <= 0) {
+        document.getElementById("timer").innerHTML = 0;
+    }
+    else if (second > 0) {
+        document.getElementById("timer").innerHTML = second - 1;
+    }
+    second -= 1;
+    }, 1000);
+        setTimeout(function () {
+            window.location.href = "/Login";
+    },second * 1000);
+</script>

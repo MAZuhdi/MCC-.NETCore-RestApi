@@ -1,4 +1,5 @@
 ﻿using Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,8 +28,26 @@ namespace Client.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Manager")]
         public IActionResult Employee()
+        {
+            return View();
+        }
+
+        [HttpGet("/NotFound")]
+        public IActionResult NotFound_404()
+        {
+            return View();
+        }
+
+        [HttpGet("/Forbidden")]
+        public IActionResult Forbidden_403()
+        {
+            return View();
+        }
+
+        [HttpGet("/Unauthorize")]
+        public IActionResult Unauthorize_401()
         {
             return View();
         }

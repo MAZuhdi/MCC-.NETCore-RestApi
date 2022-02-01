@@ -49,6 +49,7 @@ namespace API.Repository
 
             return payload;
         }
+
         public int Login(string email, string password)
         {
             var checkData = (from employee in myContext.Set<Employee>()
